@@ -71,11 +71,12 @@ function stats() {
 	years = [];
 	total = {amount:0,reports:0,currency:'USD'}
 	programs = []
+	tags = []
 	for(key in list) {
 		val = list[key]
-		tags = list[key].tags.join(' ')+' ';
+		item_tags = list[key].tags.join(' ')+' ';
 		if(selected_tag) {
-			if(tags.indexOf(selected_tag + ' ') == -1) continue;
+			if(item_tags.indexOf(selected_tag + ' ') == -1) continue;
 		}
 
 		currency = val['currency']
@@ -96,6 +97,12 @@ function stats() {
 		programs[id].reports++
 		programs[id].amount += amount
 
+		for(tag_key in list[key].tags) {
+			tag = list[key].tags[tag_key]
+			if(!tags[tag]) tags[tag] = {tag:tag,reports:0,amount:0,currency:currency}
+			tags[tag].reports++
+			tags[tag].amount += amount
+		}
 
 		total.reports++
 		total.amount += amount
@@ -146,6 +153,31 @@ function stats() {
 			.append($('<td>').text(amount+' '+val['currency']))
 			.append($('<td>').text(avg))
 		$('#stats-company').append(row);
+	}
+
+
+	new_arr = []
+	for(tag in tags) {
+		new_arr[new_arr.length] = tags[tag];
+	}
+	tags = new_arr;
+
+	tags.sort(function(a, b) { 
+	    return b.amount - a.amount;
+	})
+
+	tags = tags.splice(0, 10);
+
+	for(tag in tags) {
+		val = tags[tag]
+		avg = Math.round(parseFloat(val.amount) / val.reports)
+		amount = Math.round(parseFloat(val.amount))
+		row = $("<tr>")
+			.append($('<td>').text(val.tag))
+			.append($('<td>').text(val.reports))
+			.append($('<td>').text(amount+' '+val.currency))
+			.append($('<td>').text(avg))
+		$('#stats-tag').append(row);
 	}
 
 	tags = $('#tags');
