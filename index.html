@@ -1,0 +1,294 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+<style>
+.js-tag { cursor: pointer; }
+</style>
+    <title>BountyDash</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="assets/bootstrap.min.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+   <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="">BountyDash</a>
+        </div>
+       <!-- <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="#">HackerOne</a></li>
+            <li><a href="#about">BugCrowd</a></li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="#">Action</a></li>
+                <li><a href="#">Another action</a></li>
+                <li><a href="#">Something else here</a></li>
+                <li role="separator" class="divider"></li>
+                <li class="dropdown-header">Nav header</li>
+                <li><a href="#">Separated link</a></li>
+                <li><a href="#">One more separated link</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>-->
+      </div>
+    </nav>
+
+    <div class="container theme-showcase" role="main">
+
+      <!-- Main jumbotron for a primary marketing message or call to action -->
+     <!-- <div class="jumbotron">
+        <h1>Theme example</h1>
+        <p>This is a template showcasing the optional theme stylesheet included in Bootstrap. Use it as a starting point to create something more unique by building on or modifying it.</p>
+      </div>-->
+
+
+     <!-- <div class="page-header">
+        <h1>Buttons</h1>
+      </div>
+      <p>
+        <button type="button" class="btn btn-lg btn-default">Default</button>
+        <button type="button" class="btn btn-lg btn-primary">Primary</button>
+        <button type="button" class="btn btn-lg btn-success">Success</button>
+        <button type="button" class="btn btn-lg btn-info">Info</button>
+        <button type="button" class="btn btn-lg btn-warning">Warning</button>
+        <button type="button" class="btn btn-lg btn-danger">Danger</button>
+        <button type="button" class="btn btn-lg btn-link">Link</button>
+      </p>
+      <p>
+        <button type="button" class="btn btn-default">Default</button>
+        <button type="button" class="btn btn-primary">Primary</button>
+        <button type="button" class="btn btn-success">Success</button>
+        <button type="button" class="btn btn-info">Info</button>
+        <button type="button" class="btn btn-warning">Warning</button>
+        <button type="button" class="btn btn-danger">Danger</button>
+        <button type="button" class="btn btn-link">Link</button>
+      </p>
+      <p>
+        <button type="button" class="btn btn-sm btn-default">Default</button>
+        <button type="button" class="btn btn-sm btn-primary">Primary</button>
+        <button type="button" class="btn btn-sm btn-success">Success</button>
+        <button type="button" class="btn btn-sm btn-info">Info</button>
+        <button type="button" class="btn btn-sm btn-warning">Warning</button>
+        <button type="button" class="btn btn-sm btn-danger">Danger</button>
+        <button type="button" class="btn btn-sm btn-link">Link</button>
+      </p>
+      <p>
+        <button type="button" class="btn btn-xs btn-default">Default</button>
+        <button type="button" class="btn btn-xs btn-primary">Primary</button>
+        <button type="button" class="btn btn-xs btn-success">Success</button>
+        <button type="button" class="btn btn-xs btn-info">Info</button>
+        <button type="button" class="btn btn-xs btn-warning">Warning</button>
+        <button type="button" class="btn btn-xs btn-danger">Danger</button>
+        <button type="button" class="btn btn-xs btn-link">Link</button>
+      </p>-->
+
+		<div class="page-header"></div>
+		<!--<div class="row">
+			<form role="form">
+				<div class="form-group">
+					<div class="col-xs-1">
+						<label for="ex1">Tag</label>
+						<input class="form-control" id="ex1" type="text">
+					</div>
+					<div class="col-xs-3">
+						<label for="ex2">Title</label>
+						<input class="form-control" id="ex2" type="text">
+					</div>
+					<div class="col-xs-1">
+						<label for="ex3">Amount</label>
+						<input class="form-control" id="ex3" type="text">
+					</div>
+					<div class="col-xs-2">
+						<label>&nbsp;</label>
+						<div class="form-group">
+							<div class="btn btn-default">Add</div>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>-->
+
+<!--
+<form>
+  <div class="form-group">
+    <label for="exampleInputEmail1">Email address</label>
+    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+  </div>
+  <div class="form-group">
+    <label for="exampleInputPassword1">Password</label>
+    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+  </div>
+  <div class="form-group">
+    <label for="exampleSelect1">Example select</label>
+    <select class="form-control" id="exampleSelect1">
+      <option>1</option>
+      <option>2</option>
+      <option>3</option>
+      <option>4</option>
+      <option>5</option>
+    </select>
+  </div>
+  <div class="form-group">
+    <label for="exampleSelect2">Example multiple select</label>
+    <select multiple class="form-control" id="exampleSelect2">
+      <option>1</option>
+      <option>2</option>
+      <option>3</option>
+      <option>4</option>
+      <option>5</option>
+    </select>
+  </div>
+  <div class="form-group">
+    <label for="exampleTextarea">Example textarea</label>
+    <textarea class="form-control" id="exampleTextarea" rows="3"></textarea>
+  </div>
+  <div class="form-group">
+    <label for="exampleInputFile">File input</label>
+    <input type="file" class="form-control-file" id="exampleInputFile" aria-describedby="fileHelp">
+    <small id="fileHelp" class="form-text text-muted">This is some placeholder block-level help text for the above input. It's a bit lighter and easily wraps to a new line.</small>
+  </div>
+  <fieldset class="form-group">
+    <legend>Radio buttons</legend>
+    <div class="form-check">
+      <label class="form-check-label">
+        <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios1" value="option1" checked>
+        Option one is this and that&mdash;be sure to include why it's great
+      </label>
+    </div>
+    <div class="form-check">
+    <label class="form-check-label">
+        <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios2" value="option2">
+        Option two can be something else and selecting it will deselect option one
+      </label>
+    </div>
+    <div class="form-check disabled">
+    <label class="form-check-label">
+        <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios3" value="option3" disabled>
+        Option three is disabled
+      </label>
+    </div>
+  </fieldset>
+  <div class="form-check">
+    <label class="form-check-label">
+      <input type="checkbox" class="form-check-input">
+      Check me out
+    </label>
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+-->
+
+		<div class="row">
+ 			<div class="col-md-9">
+				<div class="pull-left" id="tags">
+					
+				</div>
+				<div class="pull-right">
+					<button type="button" class="js-tag-filter btn btn-default">Set tag-filter</button>
+					<button type="button" class="js-export btn btn-default">Export</button>
+				</div>
+				<br /><br />
+				<table class="table table-bordered table-striped table-condensed">
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>Title</th>
+						<th>Company</th>
+						<th class="text-right">Amount</th>
+						<th>Awarded</th>
+						<th>Tags</th>
+					</tr>
+				</thead>
+				<tbody id="list">
+				
+				</tbody>
+				</table>
+			</div>
+
+			<div class="col-md-3">
+ 				<button type="button" class="js-import-csv btn btn-default">Import</button>
+ 				<button type="button" class="js-clear-source btn btn-default">Delete source</button>
+				<form id="import-csv-form" class="hidden">
+				 <div class="form-group">
+				    <label for="inputCSV">CSV</label>
+					<input type="file" id="js-import-csv-file" accept="text/csv,text/plain">
+				    <textarea style="font-family:monospace; font-size: 10px" class="form-control" rows="8" id="inputCSV" placeholder="report_id,report_title..."></textarea>
+				  </div>
+				 <div class="form-group">
+				    <label for="inputSource">Source</label>
+				    <input type="text" class="form-control" id="inputSource" placeholder="Enter source">
+				  </div>
+				  	<button type="submit" class="js-import-csv-btn btn btn-default">Import CSV</button>
+					<button type="button" class="js-import-csv-cancel btn btn-sm btn-link">Cancel</button>
+				</form>
+
+
+				<h5>Stats</h5>
+				<table class="table table-bordered table-striped table-condensed">
+				<thead>
+					<tr>
+						<th>Year</th>
+						<th>Rewarded</th>
+						<th>Amount</th>
+						<th>Avg/Rew</th>
+					</tr>
+				</thead>
+				<tbody id="stats-year">
+					
+				</tbody>
+				</table>
+				<table class="table table-bordered table-striped table-condensed">
+				<thead>
+					<tr>
+						<th>Company</th>
+						<th>Rewarded</th>
+						<th>Amount</th>
+						<th>Avg/Bug</th>
+					</tr>
+				</thead>
+				<tbody id="stats-company">
+					
+				</tbody>
+				</table>
+			</div>
+		</div>
+
+
+
+    </div> <!-- /container -->
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>-->
+    <script>window.jQuery || document.write('<script src="assets/jquery-3.1.1.min.js"><\/script>')</script>
+    <script src="assets/main.js"></script>
+  </body>
+</html>
