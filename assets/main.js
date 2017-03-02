@@ -227,8 +227,14 @@ $('.js-export').on('click', function(e) {
 });
 $('.js-tag-filter').on('click', function(e) {
 	e.preventDefault();
-	filter = prompt('search for', '');
-	tag = prompt('set tags', '')
+	filter = prompt('search for (regex supported)', '');
+	if(filter == null){
+		return
+	}
+	tag = prompt('set tags', '');
+	if(tag == null){
+		return
+	}
 	$.post('load.php', {filter:filter,tag:tag}, function(data) {
 		init();
 	});

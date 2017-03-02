@@ -23,7 +23,7 @@ function add_tags_from_filter($filter, $tags) {
 	$tags = explode(',', $tags);
 	$list = get_list(true);
 	foreach($list as $id => $item) {
-		if(strpos(strtolower($item['title']), strtolower($filter)) !== false) {
+		if(preg_match("/".str_replace('/', '\/', $filter)."/si",$item['title'])) {
 			foreach($tags as $tag) {
 				$list[$id]['tags'][] = trim(strtolower($tag));
 			}
