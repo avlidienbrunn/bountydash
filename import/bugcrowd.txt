@@ -1,0 +1,24 @@
+bounties = [];
+$(".payment-list").find("li").each(function(x,y){
+    bounty = {};
+	link = $(y).find("a")[0];
+	if(link == undefined){
+		bounty.report_id = "";
+	}else{
+		bounty.report_id = link.href.split("/")[4];
+	}
+	bounty.amount = $(y).find(".reward-highlight")[0].innerText.slice(1).replace(',', '');
+	bounty.awarded_at = $(y).find(".timeago").attr("datetime");
+	bounty.report_title = y.innerText.split("$")[0];
+    s=bounty.report_title; s=escape(s); console.log(s); s=s.replace(/%25u/g,'\\u'); bounty.report_title=unescape(JSON.parse('["' + s + '"]')[0])
+	bounty.program_name = "Bugcrowd";
+	bounty.total_amount = bounty.bonus_amount = bounty.amount;
+	bounty.currency = "USD";
+	bounty.status = "sent";
+	bounties.push(bounty);
+});
+csv_content = "report_id,report_title,program_name,total_amount,amount,bonus_amount,currency,awarded_at,status\n";
+for(bounty of bounties){
+	csv_content += bounty.report_id+","+bounty.report_title+","+bounty.program_name+","+bounty.total_amount+","+bounty.amount+","+bounty.bonus_amount+","+bounty.currency+","+bounty.awarded_at+","+bounty.status+"\n";
+}
+prompt('', csv_content)

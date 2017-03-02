@@ -1,0 +1,1 @@
+https://hackerone.com/settings/bounties.csv
