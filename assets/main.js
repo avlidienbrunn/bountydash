@@ -67,7 +67,7 @@ function select_tag(tag) {
 	}
 }
 function stats() {
-	$('#stats-year,#stats-company').html('');
+	$('#stats-year,#stats-company,#stats-tag').html('');
 	years = [];
 	total = {amount:0,reports:0,currency:'USD'}
 	programs = []
@@ -254,9 +254,7 @@ function set_chart(id, data, title) {
         },
         options: {
             responsive: true,
-            legend: {
-				display:false,
-            },
+            legend: { display:false },
             title: {
                 display: true,
                 text: title
@@ -322,7 +320,7 @@ $(document).delegate('.js-add-tag', 'click', function(e) {
 });
 $(document).delegate('.js-tag', 'click', function(e) {
 	tag = $(this).attr('data-tag');
-	if(e.shiftKey) {
+	if(e.metaKey || e.shiftKey) {
 		if(!confirm('delete ' + tag + '?')) return false;
 		id = $(this).closest('tr').attr('data-id');
 		if(!id) id = false;
