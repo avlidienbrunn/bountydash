@@ -72,7 +72,7 @@ function stats() {
 	total = {amount:0,reports:0,currency:'USD'}
 	programs = []
 	tags = []
-	weeks = []
+	months = []
 	for(key in list) {
 		val = list[key]
 		item_tags = list[key].tags.join(' ')+' ';
@@ -85,48 +85,58 @@ function stats() {
 		amount = parseFloat(val['amount'])
 		year = val['date'].split('-')[0]
 
-		id = year+'-'+currency;
-		if(!years[id]) years[id] = {year:year,reports:0,amount:0,currency:currency}
-		
+		// fill year
+		id = year;
+		if(!years[id]) years[id] = {year:id,reports:0,amount:0,currency:currency}
 		years[id].reports++
 		years[id].amount += amount
 
-
-		id = program;
-		if(!programs[id]) programs[id] = {program:val['program'],reports:0,amount:0,currency:currency}
-		
+		// fill programs
+		if(!programs[id]) programs[id] = {program:id,reports:0,amount:0,currency:currency}
 		programs[id].reports++
 		programs[id].amount += amount
 
+		// fill tags
 		for(tag_key in list[key].tags) {
-			tag = list[key].tags[tag_key]
-			if(!tags[tag]) tags[tag] = {tag:tag,reports:0,amount:0,currency:currency}
-			tags[tag].reports++
-			tags[tag].amount += amount
+			id = list[key].tags[tag_key]
+			if(!tags[id]) tags[id] = {tag:id,reports:0,amount:0,currency:currency}
+			tags[id].reports++
+			tags[id].amount += amount
 		}
 
+		//building months
+		month = val.date.split('T')[0];
+		id = month.substring(0, month.length-3);
+		if(!months[id]) months[id] = {month:id,reports:0,amount:0,currency:currency}
+		months[id].reports++
+		months[id].amount += amount
+
+		// fill total
 		total.reports++
 		total.amount += amount
 
-		week = get_week(val.date.split('T')[0])
-		if(!weeks[week]) weeks[week] = {week:week,reports:0,amount:0,currency:currency}
-
-		weeks[week].reports++
-		weeks[week].amount += amount
 	}
+	// range of months
+	month_range = 24
 
-	new_arr = []
-	for(week in weeks) {
-		new_arr[new_arr.length] = weeks[week];
+	// get real months for the range
+	var start_month = new Date();
+	start_month.setMonth(start_month.getMonth()-month_range)
+	var end_month = new Date();
+	var month_array = get_month_array(start_month.toISOString().split('T')[0], end_month.toISOString().split('T')[0]);
+	month_new = [];
+	// now hook data to the range, fill it with 0 for the ones not having anything
+	for(key in month_array) {
+		month = month_array[key];
+		month = month.substring(0, month.length-3);
+		if(months[month]) 
+			month_new[month_new.length] = months[month];
+		else
+			month_new[month_new.length] = {month:month,reports:0,amount:0,currency:"USD"}
 	}
-	weeks = new_arr;
+	months = month_new;
 
-	weeks = weeks.splice(0, 24);
-
-	weeks.reverse()
-
-	set_chart('js-time-chart', weeks, 'Rewards / month')
-
+	set_chart('js-time-chart', months, "month", 'Rewards / month')
 
 	for(year in years) {
 		val = years[year]
@@ -211,90 +221,68 @@ function stats() {
 	)
 }
 function get_week(d) {
-    d = new Date(d);
-    d.setHours(0,0,0,0);
-    d.setDate(d.getDate() + 4 - (d.getDay()||7));
-    var yearStart = new Date(d.getFullYear(),0,1);
-    var weekNo = Math.ceil(( ( (d - yearStart) / 86400000) + 1)/7);
+	d = new Date(d);
+	d.setHours(0,0,0,0);
+	d.setDate(d.getDate() + 4 - (d.getDay()||7));
+	var yearStart = new Date(d.getFullYear(),0,1);
+	var weekNo = Math.ceil(( ( (d - yearStart) / 86400000) + 1)/7);
 	var monthNo = (d.getMonth()+1); monthNo = (monthNo < 10?'0':'') + monthNo;
-    return d.getFullYear() + '-' + monthNo//(weekNo < 10?'0':'') + weekNo;
+	return d.getFullYear() + '-' + monthNo;
 }
-function color_gradient(frequency1, frequency2, frequency3,
-		phase1, phase2, phase3,
-		center, width, len) {
-    center = center || 128;
-    width = width || 127;
-    len = len || 50;
-	arr = [];
-    for (var i = 0; i < len; ++i) {
-       var red = Math.round(Math.sin(frequency1*i + phase1) * width + center);
-       var grn = Math.round(Math.sin(frequency2*i + phase2) * width + center);
-       var blu = Math.round(Math.sin(frequency3*i + phase3) * width + center);
-       arr[arr.length] = "rgb(" + red + "," + grn + "," + blu + ")";
+function get_month_array(startDate, endDate) {
+	var start = startDate.split('-'), end = endDate.split('-');
+	var startYear = parseInt(start[0]), endYear = parseInt(end[0]);
+	var dates = [];
+	for(var i = startYear; i <= endYear; i++) {
+		var endMonth = i != endYear ? 11 : parseInt(end[1]) - 1;
+		var startMon = i === startYear ? parseInt(start[1])-1 : 0;
+		for(var j = startMon; j <= endMonth; j = j > 12 ? j % 12 || 11 : j+1) {
+			var month = j+1;
+			var displayMonth = month < 10 ? '0' + month : month;
+			dates.push([i, displayMonth, '01'].join('-'));
+		}
 	}
-	return arr;
+	return dates;
 }
-function set_chart(id, data, title) {
+function set_chart(id, data, keyname, title) {
 	vals = []
 	keys = []
 	data.forEach(function(value, key) {
 		vals[vals.length] = Math.round(value.amount);
-		keys[keys.length] = value.week
+		keys[keys.length] = value[keyname]
 	});
-	colors = color_gradient(.3, .1, .0, 0, .3, .4, 120, 127, vals.length)
 	var config = {
         type: 'line',
         data: {
             datasets: [{
                 data: vals,
-               // backgroundColor: colors,
-               // label: ''
             }],
             labels: keys
         },
         options: {
             responsive: true,
             legend: { display:false },
-            title: {
-                display: true,
-                text: title
-            },
-            animation: {
-                animateScale: true,
-                animateRotate: true
-            },
+            title: { display: true, text: title },
+            animation: { animateScale: true, animateRotate: true },
 			tooltips: {
-				mode: 'index',
-				intersect: false,
+				mode: 'index', intersect: false,
 				callbacks: {
                     label: function(tooltipItems, data) { 
                         return '$' + Number(tooltipItems.yLabel).toFixed(2).replace('.',',');
                     }
                 }
 			},
-			hover: {
-				mode: 'nearest',
-				intersect: true
-			},
+			hover: { mode: 'nearest', intersect: true },
 			scales: {
 				xAxes: [{
-					display: true,
-					scaleLabel: {
-					display: false,
-					labelString: 'Month'
-				}
+					display: true, scaleLabel: { display: false, labelString: 'Month' }
 				}],
 				yAxes: [{
-					display: true,
-					ticks: {
+					display: true, ticks: {
 	                   callback: function(label, index, labels) {
 	                       return '$'+label/1000+'k';
 	                   }
-	               },
-					scaleLabel: {
-					display: false,
-					labelString: 'Amount'
-				}
+	               }, scaleLabel: { display: false, labelString: 'Amount' }
 				}]
 			}
         }
@@ -318,6 +306,7 @@ $(document).delegate('.js-add-tag', 'click', function(e) {
 		$.post('load.php', {id:id,tag:tag}, parse_list)
 	return false;
 });
+
 $(document).delegate('.js-tag', 'click', function(e) {
 	tag = $(this).attr('data-tag');
 	if(e.metaKey || e.shiftKey) {
@@ -338,11 +327,13 @@ $('.js-clear-source').on('click', function() {
 		init();
 	});
 });
+
 $('.js-export').on('click', function(e) {
 	e.preventDefault();
 	window.location = 'data:text/json,' + JSON.stringify(list)
 	return false;
 });
+
 $('.js-tag-filter').on('click', function(e) {
 	e.preventDefault();
 	filter = prompt('search for (regex supported)', '');
@@ -358,6 +349,7 @@ $('.js-tag-filter').on('click', function(e) {
 	});
 	return false;
 });
+
 $('#js-import-csv-file').on('change', function(e) {
 	var input = event.target;
 	var reader = new FileReader();
@@ -366,14 +358,17 @@ $('#js-import-csv-file').on('change', function(e) {
 	};
 	reader.readAsText(input.files[0]);
 });
+
 $('.js-import-csv').on('click', function() {
 	$('#import-csv-form').removeClass('hidden');
 	$('.js-import-csv,.js-clear-source').hide();
 });
+
 $('.js-import-csv-cancel').on('click', function() {
 	$('#import-csv-form').addClass('hidden');
 	$('.js-import-csv,.js-clear-source').show();
 });
+
 $('#import-csv-form').on('submit', function(e) {
 	e.preventDefault();
 	$.post('load.php', {csv:$('#inputCSV').val(),source:$('#inputSource').val()}, function(data) {
