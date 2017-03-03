@@ -138,6 +138,8 @@ function stats() {
 
 	set_chart('js-time-chart', months, "month", 'Rewards / month')
 
+	years.reverse();
+
 	for(year in years) {
 		val = years[year]
 		avg = Math.round(parseFloat(val.amount) / val.reports)
