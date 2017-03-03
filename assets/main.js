@@ -72,6 +72,7 @@ function stats() {
 	total = {amount:0,reports:0,currency:'USD'}
 	programs = []
 	tags = []
+	weeks = []
 	for(key in list) {
 		val = list[key]
 		item_tags = list[key].tags.join(' ')+' ';
@@ -106,7 +107,26 @@ function stats() {
 
 		total.reports++
 		total.amount += amount
+
+		week = get_week(val.date.split('T')[0])
+		if(!weeks[week]) weeks[week] = {week:week,reports:0,amount:0,currency:currency}
+
+		weeks[week].reports++
+		weeks[week].amount += amount
 	}
+
+	new_arr = []
+	for(week in weeks) {
+		new_arr[new_arr.length] = weeks[week];
+	}
+	weeks = new_arr;
+
+	weeks = weeks.splice(0, 24);
+
+	weeks.reverse()
+
+	set_chart('js-time-chart', weeks, 'Rewards / month')
+
 
 	for(year in years) {
 		val = years[year]
@@ -155,7 +175,6 @@ function stats() {
 		$('#stats-company').append(row);
 	}
 
-
 	new_arr = []
 	for(tag in tags) {
 		new_arr[new_arr.length] = tags[tag];
@@ -191,6 +210,107 @@ function stats() {
 		}
 	)
 }
+function get_week(d) {
+    d = new Date(d);
+    d.setHours(0,0,0,0);
+    d.setDate(d.getDate() + 4 - (d.getDay()||7));
+    var yearStart = new Date(d.getFullYear(),0,1);
+    var weekNo = Math.ceil(( ( (d - yearStart) / 86400000) + 1)/7);
+	var monthNo = (d.getMonth()+1); monthNo = (monthNo < 10?'0':'') + monthNo;
+    return d.getFullYear() + '-' + monthNo//(weekNo < 10?'0':'') + weekNo;
+}
+function color_gradient(frequency1, frequency2, frequency3,
+		phase1, phase2, phase3,
+		center, width, len) {
+    center = center || 128;
+    width = width || 127;
+    len = len || 50;
+	arr = [];
+    for (var i = 0; i < len; ++i) {
+       var red = Math.round(Math.sin(frequency1*i + phase1) * width + center);
+       var grn = Math.round(Math.sin(frequency2*i + phase2) * width + center);
+       var blu = Math.round(Math.sin(frequency3*i + phase3) * width + center);
+       arr[arr.length] = "rgb(" + red + "," + grn + "," + blu + ")";
+	}
+	return arr;
+}
+function set_chart(id, data, title) {
+	vals = []
+	keys = []
+	data.forEach(function(value, key) {
+		vals[vals.length] = Math.round(value.amount);
+		keys[keys.length] = value.week
+	});
+	colors = color_gradient(.3, .1, .0, 0, .3, .4, 120, 127, vals.length)
+	var config = {
+        type: 'line',
+        data: {
+            datasets: [{
+                data: vals,
+               // backgroundColor: colors,
+               // label: ''
+            }],
+            labels: keys
+        },
+        options: {
+            responsive: true,
+            legend: {
+				display:false,
+            },
+            title: {
+                display: true,
+                text: title
+            },
+            animation: {
+                animateScale: true,
+                animateRotate: true
+            },
+			tooltips: {
+				mode: 'index',
+				intersect: false,
+				callbacks: {
+                    label: function(tooltipItems, data) { 
+                        return '$' + Number(tooltipItems.yLabel).toFixed(2).replace('.',',');
+                    }
+                }
+			},
+			hover: {
+				mode: 'nearest',
+				intersect: true
+			},
+			scales: {
+				xAxes: [{
+					display: true,
+					scaleLabel: {
+					display: false,
+					labelString: 'Month'
+				}
+				}],
+				yAxes: [{
+					display: true,
+					ticks: {
+	                   callback: function(label, index, labels) {
+	                       return '$'+label/1000+'k';
+	                   }
+	               },
+					scaleLabel: {
+					display: false,
+					labelString: 'Amount'
+				}
+				}]
+			}
+        }
+    }
+ 	if(window['chart-' + id]) {
+		window['chart-' + id].data.datasets = config.data.datasets;
+		window['chart-' + id].data.labels = config.data.labels;
+		window['chart-' + id].update()
+	} else {
+		var ctx = document.getElementById(id).getContext("2d");
+		window['chart-' + id] = new Chart(ctx, config);
+	}
+}
+
 
 $(document).delegate('.js-add-tag', 'click', function(e) {
 	e.preventDefault();
