@@ -52,8 +52,24 @@
 						<div id="tags"></div>
 					</div>
 					<div class="col-md-3 text-right">
-						<button type="button" class="js-tag-filter btn btn-sm btn-default">Set tag-filter</button>
-						<button type="button" class="js-export btn btn-sm btn-default">Export</button>
+						<button type="button" class="js-tag-filter btn btn-xs btn-default">Set tag-filter</button>
+						<select class="js-month-selector input-xs">
+							<option value="-1">All time</option>
+							<option value="1">1 month</option>
+							<option value="3">3 months</option>
+							<option value="6">6 months</option>
+							<option value="12">1 year</option>
+							<option value="18">18 months</option>
+							<option value="24">2 years</option>
+							<option value="36">3 years</option>
+							<option value="48">4 years</option>
+							<option value="60">5 years</option>
+							<option value="72">6 years</option>
+							<option value="84">7 years</option>
+							<option value="96">8 years</option>
+							<option value="108">9 years</option>
+							<option value="120">10 years</option>
+						</select>
 					</div>
 				</div>
 				<br />
@@ -86,11 +102,14 @@
 			</div>
 
 			<div class="col-md-3">
- 				<button type="button" class="js-import-csv btn btn-sm btn-default">Import</button>
- 				<button type="button" class="js-clear-source btn btn-sm btn-default">Delete source</button>
+				<div class="text-right">
+					<button type="button" class="js-export btn btn-xs btn-default">Export</button>
+	 				<button type="button" class="js-import-csv btn btn-xs btn-default">Import...</button>
+	 				<button type="button" class="js-clear-source btn btn-xs btn-default">Delete...</button>
+				</div>
 				<form id="import-csv-form" class="hidden">
 				 <div class="form-group">
-				    <label for="inputCSV">CSV</label>
+				    <label for="inputCSV">CSV-import</label>
 					<input type="file" id="js-import-csv-file" accept="text/csv,text/plain">
 				    <textarea style="font-family:monospace; font-size: 10px" class="form-control" rows="8" id="inputCSV" placeholder="report_id,report_title..."></textarea>
 				  </div>
@@ -98,8 +117,8 @@
 				    <label for="inputSource">Source</label>
 				    <input type="text" class="form-control" id="inputSource" placeholder="Enter source">
 				  </div>
-				  	<button type="submit" class="js-import-csv-btn btn btn-sm btn-default">Import CSV</button>
-					<button type="button" class="js-import-csv-cancel btn btn-sm btn-link">Cancel</button>
+				  	<button type="submit" class="js-import-csv-btn btn btn-xs btn-default">Import CSV</button>
+					<button type="button" class="js-import-csv-cancel btn btn-xs btn-link">Cancel</button>
 				</form>
 
 

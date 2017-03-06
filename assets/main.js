@@ -1,12 +1,19 @@
-var list = [], selected_tag = false, all_tags = {idx:{},tags:[]};
+var list = [], selected_tag = false, all_tags = {idx:{},tags:[]}, month_range = -1;
 init()
 function init() {
+	month_range = parseInt(localStorage.getItem('month_range')) || -1;
+	$('.js-month-selector').val(month_range);
 	$.get('load.php', parse_list);
 }
 function parse_list(data) {
 	all_tags = {idx:{},tags:[]}
-	$('#list').html('');
 	list = data.list;
+	set_list();
+}
+function set_list() {
+	$('#list').html('');
+	var check_date = new Date();
+	check_date.setMonth(check_date.getMonth()-month_range)
 	for(key in list) {
 		val = list[key];
 		tags = val['tags'].join(' ') + ' ';
@@ -19,10 +26,20 @@ function parse_list(data) {
 				}
 			}
 		)
+		var report_date = val.date.split('T')[0];
 		hide = false;
 		if(selected_tag) {
 			if(tags.indexOf(selected_tag + ' ') == -1) hide = true;
 		}
+		outdated = false;
+		if(month_range > 0) {
+			report_date_obj = new Date(report_date);
+			if(report_date_obj < check_date) { 
+				hide = true;
+				outdated = true;
+			}
+		}
+		
 		row = $("<tr>").attr('data-id', key).attr('data-tags', tags)
 			.append($('<td>').text(val['id'].substr(0,10)))
 			.append($('<td>').text(1?val['title']:'#### ## ####'))
@@ -42,6 +59,7 @@ function parse_list(data) {
 				tags.append($('<button class="js-add-tag btn btn-xs btn-link">').text('...'))
 				)
 			)
+		if(outdated) row.addClass('outdated');
 		if(hide) row.hide();
 		$('#list').append(row);
 	}
@@ -52,7 +70,7 @@ function select_tag(tag) {
 	if(tag) {
 		if(selected_tag) {
 			$('.js-tag[data-tag="' + selected_tag + '"]').removeClass('label-warning')
-			$('#list tr').show()
+			$('#list tr:not(.outdated)').show()
 			if(selected_tag == tag) {
 				selected_tag = false
 				tag = false;
@@ -73,11 +91,23 @@ function stats() {
 	programs = []
 	tags = []
 	months = []
+	first_report = -1
+	var check_date = new Date();
+	check_date.setMonth(check_date.getMonth()-month_range)
+
 	for(key in list) {
 		val = list[key]
 		item_tags = list[key].tags.join(' ')+' ';
 		if(selected_tag) {
 			if(item_tags.indexOf(selected_tag + ' ') == -1) continue;
+		}
+		var report_date = val.date.split('T')[0];
+
+		if(first_report == -1 || report_date < first_report) first_report = report_date;
+
+		if(month_range > 0) {
+			report_date_obj = new Date(report_date);
+			if(report_date_obj < check_date) continue;
 		}
 
 		currency = val['currency']
@@ -92,6 +122,7 @@ function stats() {
 		years[id].amount += amount
 
 		// fill programs
+		id = program;
 		if(!programs[id]) programs[id] = {program:id,reports:0,amount:0,currency:currency}
 		programs[id].reports++
 		programs[id].amount += amount
@@ -105,8 +136,7 @@ function stats() {
 		}
 
 		//building months
-		month = val.date.split('T')[0];
-		id = month.substring(0, month.length-3);
+		id = report_date.substring(0, report_date.length-3);
 		if(!months[id]) months[id] = {month:id,reports:0,amount:0,currency:currency}
 		months[id].reports++
 		months[id].amount += amount
@@ -116,12 +146,14 @@ function stats() {
 		total.amount += amount
 
 	}
-	// range of months
-	month_range = 24
 
 	// get real months for the range
+	range = month_range;
+	if(range == -1) range = months_ago(first_report) + 1;
+
 	var start_month = new Date();
-	start_month.setMonth(start_month.getMonth()-month_range)
+	start_month.setMonth(start_month.getMonth()-range)
+
 	var end_month = new Date();
 	var month_array = get_month_array(start_month.toISOString().split('T')[0], end_month.toISOString().split('T')[0]);
 	month_new = [];
@@ -180,7 +212,7 @@ function stats() {
 		avg = Math.round(parseFloat(val.amount) / val.reports)
 		amount = Math.round(parseFloat(val.amount))
 		row = $("<tr>")
-			.append($('<td>').text(val['program']))
+			.append($('<td>').text(val.program))
 			.append($('<td>').text(val['reports']))
 			.append($('<td>').text(amount+' '+val['currency']))
 			.append($('<td>').text(avg))
@@ -221,6 +253,15 @@ function stats() {
 			.append(' ')
 		}
 	)
+}
+function months_ago(check) {
+	var d1 = new Date(check);
+	var d2 = new Date();
+    var months;
+    months = (d2.getFullYear() - d1.getFullYear()) * 12;
+    months -= d1.getMonth() + 1;
+    months += d2.getMonth();
+    return months <= 0 ? 0 : months;
 }
 function get_week(d) {
 	d = new Date(d);
@@ -323,6 +364,12 @@ $(document).delegate('.js-tag', 'click', function(e) {
 	return false;
 });
 
+$('.js-month-selector').on('change', function() {
+	month_range = $('.js-month-selector option:selected').val();
+	localStorage.setItem('month_range', month_range);
+	set_list();
+});
+
 $('.js-clear-source').on('click', function() {
 	source = prompt('insert source to delete', '');
 	$.post('load.php', {delete:1,source:source}, function(data) {
@@ -363,19 +410,16 @@ $('#js-import-csv-file').on('change', function(e) {
 
 $('.js-import-csv').on('click', function() {
 	$('#import-csv-form').removeClass('hidden');
-	$('.js-import-csv,.js-clear-source').hide();
 });
 
 $('.js-import-csv-cancel').on('click', function() {
 	$('#import-csv-form').addClass('hidden');
-	$('.js-import-csv,.js-clear-source').show();
 });
 
 $('#import-csv-form').on('submit', function(e) {
 	e.preventDefault();
 	$.post('load.php', {csv:$('#inputCSV').val(),source:$('#inputSource').val()}, function(data) {
 		$('#import-csv-form').addClass('hidden')[0].reset();
-		$('.js-import-csv,.js-clear-source').show();
 		parse_list(data);
 	});
 	return false;
