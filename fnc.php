@@ -137,5 +137,7 @@ function get_list($json = false) {
 
 function show_all() {
 	header("Content-type: application/json");
-	echo '{"list":'.get_list().'}';
+	echo '{"list":';
+	echo get_list();
+	echo '}';
 }
