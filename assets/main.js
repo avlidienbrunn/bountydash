@@ -92,6 +92,7 @@ function stats() {
 	tags = []
 	months = []
 	first_report = -1
+	months_total = 0;
 	var check_date = new Date();
 	check_date.setMonth(check_date.getMonth()-month_range)
 
@@ -173,25 +174,57 @@ function stats() {
 	years.reverse();
 
 	for(year in years) {
+		months_total++;
+		//year year year
+		if(new Date().getFullYear() == years[year].year){
+			months_amount = new Date().getMonth()+1;
+		}else{
+			months_amount = 12;
+		}
+		years[year].months_amount = months_amount
 		val = years[year]
-		avg = Math.round(parseFloat(val.amount) / val.reports)
-		amount = Math.round(parseFloat(val.amount))
+		avg = Math.round(parseFloat(val.amount) / val.reports);
+		avg_year = Math.round(parseFloat(val.amount / years[year].months_amount));
+		years[year].avg_year = avg_year;
+		amount = Math.round(parseFloat(val.amount));
 		row = $("<tr>")
 			.append($('<td>').text(val['year']))
 			.append($('<td>').text(val['reports']))
 			.append($('<td>').text(amount+' '+val['currency']))
 			.append($('<td>').text(avg))
+			.append($('<td id="avg_year_'+years[year].year+'">').text(avg_year))
 		$('#stats-year').append(row);
+	}
+
+	years.reverse();
+	prev_avg_year = 0;
+	for(year in years){
+		avg_year = years[year].avg_year;
+		if(prev_avg_year == 0){
+			$("#avg_year_"+years[year].year).attr("title", "0%");
+			prev_avg_year = avg_year;
+		}else{
+			console.log(avg_year + "-" +prev_avg_year + "/" + prev_avg_year + "*100");
+			diff = ((avg_year-prev_avg_year)/prev_avg_year * 100).toFixed(2);
+			console.log(diff);
+			if(diff > 0){
+				diff = "+"+diff
+			}
+			$("#avg_year_"+years[year].year).attr("title", diff+"%");
+			prev_avg_year = avg_year;
+		}
 	}
 
 	if(typeof year !== 'undefined') {
 		avg = Math.round(parseFloat(total.amount) / total.reports)
+		avg_year = Math.round(parseFloat(val.amount / months_total))
 		amount = Math.round(parseFloat(total.amount))
 		row = $("<tr>")
 			.append($('<td>').text('Total'))
 			.append($('<td>').text(total['reports']))
 			.append($('<td>').text(amount+' '+total['currency']))
 			.append($('<td>').text(avg))
+			.append($('<td>').text(avg_year))
 		$('#stats-year').append(row);
 	}
 
