@@ -205,13 +205,13 @@ function stats() {
 			$("#avg_year_"+years[year].year).attr("title", "0%");
 			prev_avg_year = avg_year;
 		}else{
-			console.log(avg_year + "-" +prev_avg_year + "/" + prev_avg_year + "*100");
-			diff = ((avg_year-prev_avg_year)/prev_avg_year * 100).toFixed(2);
-			console.log(diff);
-			if(diff > 0){
-				diff = "+"+diff
+			diff = ((avg_year-prev_avg_year)/prev_avg_year * 100).toFixed(1);
+			if(diff >= 0){
+				diff = " <span class='text-success'>+"+diff+"%</span>"
+			}else{
+				diff = " <span class='text-danger'>"+diff+"%</span>";
 			}
-			$("#avg_year_"+years[year].year).attr("title", diff+"%");
+			$("#avg_year_"+years[year].year).append(diff);
 			prev_avg_year = avg_year;
 		}
 	}
