@@ -184,6 +184,7 @@ function stats() {
 		years[year].months_amount = months_amount
 		val = years[year]
 		avg = Math.round(parseFloat(val.amount) / val.reports);
+		years[year].avg = avg;
 		avg_year = Math.round(parseFloat(val.amount / years[year].months_amount));
 		years[year].avg_year = avg_year;
 		amount = Math.round(parseFloat(val.amount));
@@ -214,6 +215,14 @@ function stats() {
 			prev_avg_year = avg_year;
 		}
 	}
+
+	current_year = new Date().getFullYear();
+	current_months = new Date().getMonth()+1;
+	row = $("<tr>")
+		.append($('<td>').text(years[current_year].year))
+		.append($('<td>').text((years[current_year]['reports'] / current_months) * 12))
+		.append($('<td>').text((years[current_year]['amount'] / current_months) * 12+" "+years[current_year]['currency']))
+	$('#stats-forecast').append(row);
 
 	if(typeof year !== 'undefined') {
 		avg = Math.round(parseFloat(total.amount) / total.reports)
