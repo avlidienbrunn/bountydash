@@ -218,6 +218,7 @@ function stats() {
 
 	current_year = new Date().getFullYear();
 	current_months = new Date().getMonth()+1;
+	$('#stats-forecast').html("");
 	row = $("<tr>")
 		.append($('<td>').text(years[current_year].year))
 		.append($('<td>').text((years[current_year]['reports'] / current_months) * 12))
