@@ -74,7 +74,7 @@ function import_source($source, $csv) {
 		if(!$line) continue;
 		$line = explode(',', $line);
 		$id = array_shift($line);
-		$status = array_pop($line);
+		$status = 'sent';array_pop($line); //since status changes during different imports, always keep as sent
 		$date = array_pop($line);
 		$currency = array_pop($line);
 		array_pop($line);
