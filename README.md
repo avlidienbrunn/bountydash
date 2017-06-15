@@ -1,10 +1,10 @@
 # BountyDash
 
-_This tool was created by [@fransrosen](https://twitter.com/fransrosen) and [@avlidienbrunn](https://twitter.com/avlidienbrunn) to create a better overview of your bug bounty rewards. By tagging all your findings you're also able to categorize all vulnerability types, plotting up a graph around your activity cross platforms and forecast your future findings. Everything runs locally and there are import scripts you can run to fetch the data from each platform if you like._
+_This tool was created by [@fransrosen](https://twitter.com/fransrosen) and [@avlidienbrunn](https://twitter.com/avlidienbrunn) to create a better overview of your bug bounty rewards. By tagging all your reports in the tool you're also able to categorize all vulnerability types, plotting up a graph around your activity cross platforms and get forecasts around your future findings. Everything runs locally and there are import scripts you can run to fetch the data from each platform._
 
-## Background
+## Description
 
-Since we both has submitted quite a bunch of reports since back in 2013, we felt that we had to consolidate how we structured our findings. We both kept spreadsheets with all info, but there had to be a better way.
+Since we both have submitted quite a bunch of bug bounty reports since 2013, we felt that we had to consolidate how we structured our findings. We both kept spreadsheets with all info, but there had to be a better way.
 
 By just creating a quick import script, saving the data to a JSON-blob, we were able to start calculate some fun statistics about our activity, and also gain insights in how we actually look for bugs.
 
@@ -14,9 +14,13 @@ By just creating a quick import script, saving the data to a JSON-blob, we were 
 **Mathias:**
 > I use BountyDash to make sure my bounty reporting/rewards is in line with my goals, I also tagged every bug that came from automation which made it easy to track those goals too!
 
+## Share knowledge using [#bountydash](https://twitter.com/search?q=bountydash)
+
+If you get something good out of the tool, like our realizations above, we would love if you use the hashtag [#bountydash](https://twitter.com/search?q=bountydash) so we can share the knowledge further.
+
 ## Intro
 
-First, yea, we do PHP here! :) The PHP is not calculating any of the stats, it's only sanitizing the data when doing the import and saving and loading the JSON-file to disk. The following methods are used `import_source`, `delete_source`, `delete_tag`, `add_tags` and `add_tags_from_filter`.
+First, yea, we do PHP here! :) The PHP is not calculating any of the stats, it's only sanitizing and normalizing the data when importing + saving and loading the JSON-file to disk. The following methods are used `import_source`, `delete_source`, `delete_tag`, `add_tags` and `add_tags_from_filter`.
 
 We haven't secured this app in any way (Hello CSRF) so keep this instance for yourself somewhere nice.
 
@@ -88,6 +92,8 @@ will delete the tag completely. Deleting it from the report list on a specific r
 
 ## Data structure and dupe detection
 
+The data storage is a simple JSON-file. Before every import of a source we make a backup of this file to make sure that stuff doesn't break when doing the import. 
+
 We use a combination of the following fields from the CSV to create a hash to check if we already have the report when doing an import:
 
 `id`, `status`, `date`, `amount`, `currency`, `program`, `title` and `source`.
@@ -116,7 +122,7 @@ This is not our proudest moment, but it does the job for now.
 
 You can also export the JSON using the export-button.
 
-There's also a `Delete...`-button. This one can be used to delete a specific source. This will actually delete all reports with that source. It's great if you want to clear up and import stuff again.
+There's also a `Delete...`-button. This one can be used to delete a specific source. This will actually delete all reports with that source. It's great if you want to clear up and import stuff again from a specific source.
 
 ## Taxonomy
 
@@ -140,9 +146,9 @@ There's also a `Delete...`-button. This one can be used to delete a specific sou
 
 We currently support the following platforms:
 
-* HackerOne using CSV-export sent to your email
-* Bugcrowd using bookmarklet
-* Synack using bookmarklet
+* HackerOne (using CSV-export sent to you via e-mail)
+* Bugcrowd (using bookmarklet)
+* Synack (using bookmarklet)
 * Detectify Crowdsource (through Bugcrowd payments)
 * Facebook (through Bugcrowd payments)
 
