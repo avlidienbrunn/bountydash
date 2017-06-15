@@ -218,18 +218,25 @@ function stats() {
 
 	current_year = new Date().getFullYear();
 	current_months = new Date().getMonth()+1;
-	
-	forecast_rewarded = (years[current_year]['reports'] / current_months) * 12;
-	left_rewarded = forecast_rewarded - years[current_year]['reports'];
-	forecast_amount = (years[current_year]['amount'] / current_months) * 12;
-	left_amount = (forecast_amount - years[current_year]['amount']).toFixed(2);
-
 	$('#stats-forecast').html("");
-	row = $("<tr>")
-		.append($('<td>').text(years[current_year].year))
-		.append($('<td title="'+left_rewarded+' left">').text(forecast_rewarded))
-		.append($('<td title="'+left_amount+' left">').text(forecast_amount+" "+years[current_year]['currency']))
-	$('#stats-forecast').append(row);
+
+	if(years[current_year]) {
+		forecast_rewarded = (years[current_year]['reports'] / current_months) * 12;
+		left_rewarded = forecast_rewarded - years[current_year]['reports'];
+		forecast_amount = ((years[current_year]['amount'] / current_months) * 12).toFixed(2);
+		left_amount = (forecast_amount - years[current_year]['amount']).toFixed(2);
+	
+		$('#forecast').show();
+		$('#stats-forecast').html("");
+		row = $("<tr>")
+			.append($('<td>').text(years[current_year].year))
+			.append($('<td>').text(forecast_rewarded + ' (' + left_rewarded + ' left)'))
+			.append($('<td title="'+left_amount+' left">').text(forecast_amount+" "+years[current_year]['currency'] + ' (' + left_amount + ' left)'))
+		$('#stats-forecast').append(row);
+	} else {
+		//hide header.
+		$('#forecast').hide();
+	}
 
 	if(typeof year !== 'undefined') {
 		avg = Math.round(parseFloat(total.amount) / total.reports)
