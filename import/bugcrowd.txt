@@ -22,4 +22,4 @@ csv_content = "report_id,report_title,program_name,total_amount,amount,bonus_amo
 for(bounty of bounties){
 	csv_content += bounty.report_id+","+bounty.report_title+","+bounty.program_name+","+bounty.total_amount+","+bounty.amount+","+bounty.bonus_amount+","+bounty.currency+","+bounty.awarded_at+","+bounty.status+"\n";
 }
-prompt('copy the text below and import into bountydash', csv_content)
+location.href='data:text/plain;charset=utf-8,' + csv_content.replace(/\n/g, '%0a');
