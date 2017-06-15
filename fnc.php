@@ -61,6 +61,7 @@ function delete_tag($id = false, $tag) {
 	save_list($list);
 }
 function import_source($source, $csv) {
+	backup_list();
 	$source = strtolower(trim($source));
 	$list = get_list(true);
 
@@ -125,6 +126,9 @@ function save_list($list) {
 	file_put_contents('db/db.txt', json_encode($new));
 }
 
+function backup_list() {
+	file_put_contents('db/db-backup-'.date("ymd-his").'.txt', file_get_contents('db/db.txt'));
+}
 function get_list($json = false) {
 	$str = file_get_contents('db/db.txt');
 	return $json ? json_decode($str, true) : $str;
