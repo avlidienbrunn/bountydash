@@ -12,7 +12,7 @@ By just creating a quick import script, saving the data to a JSON-blob, we were 
 > My biggest revelation was that I actually do big pauses of up to 1.5 months long about every 3 months. This is a natural way for me to dig into something and then step out to not get too fed up.
 
 **Mathias:**
-> ...
+> I use BountyDash to make sure my bounty reporting/rewards is in line with my goals, I also tagged every bug that came from automation which made it easy to track those goals too!
 
 ## Intro
 
