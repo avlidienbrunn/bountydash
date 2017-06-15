@@ -399,7 +399,7 @@ function set_chart(id, data, keyname, title) {
 
 $(document).delegate('.js-add-tag', 'click', function(e) {
 	e.preventDefault();
-	tag = prompt('add a tag', '');
+	tag = prompt('add tags', '');
 	id = $(e.target).closest('tr').attr('data-id')
 	if(tag)
 		$.post('load.php', {id:id,tag:tag}, parse_list)
