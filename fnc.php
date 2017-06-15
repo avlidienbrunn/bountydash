@@ -104,7 +104,7 @@ function import_source($source, $csv) {
 			$json[$key] = $arr;
 	}
 	if(!$json) return; //nothing new to save.
-	$list = array_merge($list, $json);
+	$list = $list ? array_merge($list, $json) : $json;
 	
 	save_list($list);
 }
@@ -127,10 +127,11 @@ function save_list($list) {
 }
 
 function backup_list() {
-	file_put_contents('db/db-backup-'.date("ymd-his").'.txt', file_get_contents('db/db.txt'));
+	if(file_exists('db/db.txt'))
+		file_put_contents('db/db-backup-'.date("ymd-his").'.txt', file_get_contents('db/db.txt'));
 }
 function get_list($json = false) {
-	$str = file_get_contents('db/db.txt');
+	$str = file_exists('db/db.txt') ? file_get_contents('db/db.txt') : '';
 	return $json ? json_decode($str, true) : $str;
 }
 
