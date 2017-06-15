@@ -84,8 +84,6 @@ function import_source($source, $csv) {
 		$title = preg_replace(array('/^"/', '/"$/'), '', implode(',',$line));
 		$title = str_replace(array('""'), array('"'), $title);
 
-		$key = $source.'-'.$id;
-
 		$arr = [
 			'id' => $id,
 			'status' => $status,
