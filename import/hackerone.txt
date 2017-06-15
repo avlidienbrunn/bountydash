@@ -1,1 +1,1 @@
-https://hackerone.com/settings/bounties.csv
+Go to https://hackerone.com/settings/bounties and click "Email me a CSV overview" and import it directly.
