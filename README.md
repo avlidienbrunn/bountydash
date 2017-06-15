@@ -20,7 +20,7 @@ If you get something good out of the tool, like our realizations above, we would
 
 ## Intro
 
-First, yea, we do PHP here! :) The PHP is not calculating any of the stats, it's only sanitizing and normalizing the data when importing + saving and loading the JSON-file to disk. The following methods are used `import_source`, `delete_source`, `delete_tag`, `add_tags` and `add_tags_from_filter`.
+First, yea, we did PHP here! :) The PHP code is not calculating any of the stats, it's only sanitizing and normalizing the data when importing + saving and loading the JSON-file to disk. The following methods are used `import_source`, `delete_source`, `delete_tag`, `add_tags` and `add_tags_from_filter`.
 
 We haven't secured this app in any way (Hello CSRF) so keep this instance for yourself somewhere nice.
 
