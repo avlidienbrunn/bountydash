@@ -4,6 +4,8 @@ _This tool was created by [@fransrosen](https://twitter.com/fransrosen) and [@av
 
 <img src="assets/intro/intro10.png" />
 
+**This tool will most likely have data in it that are for your own eyes only. Thus, do not run this in any other way than on a local instance `127.0.0.1:X (LISTEN)`.**
+
 ## Description
 
 Since we both have submitted quite a bunch of bug bounty reports since 2013, we felt that we had to consolidate how we structured our findings. We both kept spreadsheets with all info, but there had to be a better way.
@@ -18,7 +20,7 @@ By just creating a quick import script, saving the data to a JSON-blob, we were 
 
 ## Share knowledge using [#bountydash](https://twitter.com/search?q=bountydash)
 
-If you get something good out of the tool, like our realizations above, we would love if you use the hashtag [#bountydash](https://twitter.com/search?q=bountydash) so we can share the knowledge further.
+If you get something good out of the tool, like our realizations above, we would love if you use the hashtag [#bountydash](https://twitter.com/search?q=bountydash) so we can share the knowledge further. But please do not share any information about vulnerabilities that wasn't already published publicly.
 
 ## Intro
 
