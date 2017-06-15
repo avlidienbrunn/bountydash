@@ -1,3 +1,4 @@
+//go to https://bugcrowd.com/payments and run in console:
 bounties = [];
 $(".payment-list").find("li").each(function(x,y){
     bounty = {};
@@ -21,4 +22,4 @@ csv_content = "report_id,report_title,program_name,total_amount,amount,bonus_amo
 for(bounty of bounties){
 	csv_content += bounty.report_id+","+bounty.report_title+","+bounty.program_name+","+bounty.total_amount+","+bounty.amount+","+bounty.bonus_amount+","+bounty.currency+","+bounty.awarded_at+","+bounty.status+"\n";
 }
-prompt('', csv_content)
+prompt('copy the text below and import into bountydash', csv_content)
