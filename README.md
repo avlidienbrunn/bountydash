@@ -2,7 +2,7 @@
 
 _This tool was created by [@fransrosen](https://twitter.com/fransrosen) and [@avlidienbrunn](https://twitter.com/avlidienbrunn) to create a better overview of your bug bounty rewards. By tagging all your findings you're also able to categorize all vulnerability types, plotting up a graph around your activity cross platforms and forecast your future findings. Everything runs locally and there are import scripts you can run to fetch the data from each platform if you like._
 
-### Background
+## Background
 
 Since we both has submitted quite a bunch of reports since back in 2013, we felt that we had to consolidate how we structured our findings. We both kept spreadsheets with all info, but there had to be a better way.
 
@@ -14,13 +14,13 @@ By just creating a quick import script, saving the data to a JSON-blob, we were 
 **Mathias:**
 > ...
 
-### Intro
+## Intro
 
 First, yea, we do PHP here! :) The PHP is not calculating any of the stats, it's only sanitizing the data when doing the import and saving and loading the JSON-file to disk. The following methods are used `import_source`, `delete_source`, `delete_tag`, `add_tags` and `add_tags_from_filter`.
 
 We haven't secured this app in any way (Hello CSRF) so keep this instance for yourself somewhere nice.
 
-### Getting started 
+## Getting started 
 
 *There's a __Taxonomy__ part below that explains the concept of the naming convention in this app and what everything actually means. If you like, please read that one before you start.*
 
@@ -50,7 +50,7 @@ When we import this source now, you will see the chart getting an update and als
 
 We can now start tagging our findings to get some more insights.
 
-##### Using the tag-filter
+### Using the tag-filter
 
 In the upper right side of the graph, there's a date-selector for the stats but also button saying `Tag-filter`. This means that you can use a filter of your report's `Title`-field to add a tag to multiple reports.
 
@@ -68,13 +68,13 @@ Every report with a title matching the filter will now get the tag, the stats wi
 
 <img src="assets/intro/intro6.png" width="400" />
 
-##### Adding tags manually
+### Adding tags manually
 
 If you like to add tags to a specific report, there's a `...`-button in the `Tags`-column.
 
 <img src="assets/intro/intro7.png" width="300" />
 
-##### Deleting tags
+### Deleting tags
 
 You can also delete tags in two different ways. Either you want to delete the tag completely, or you want to delete the tag for a specific report. Holding shift-key or cmd-key clicking on the tag will confirm if you like to delete the tag:
 
@@ -86,7 +86,7 @@ Deleting it from the top:
 
 will delete the tag completely. Deleting it from the report list on a specific report will only delete it for that specific report.
 
-### Data structure and dupe detection
+## Data structure and dupe detection
 
 We use a combination of the following fields from the CSV to create a hash to check if we already have the report when doing an import:
 
@@ -112,13 +112,13 @@ Even though the CSV contains more fields, we are only using the ones above. Sinc
 
 This is not our proudest moment, but it does the job for now.
 
-### Additional features
+## Additional features
 
 You can also export the JSON using the export-button.
 
 There's also a `Delete...`-button. This one can be used to delete a specific source. This will actually delete all reports with that source. It's great if you want to clear up and import stuff again.
 
-### Taxonomy
+## Taxonomy
 
 * `tag` is a phrase you add to each report. You will be able to filter on these in your stats. 
 
@@ -136,7 +136,7 @@ There's also a `Delete...`-button. This one can be used to delete a specific sou
 * `Avg/Rew` means Average amount per Reward.
 * `Avg/Month` means Average amount per month. This also shows the increased percentage from the year before.
 
-### Support
+## Support
 
 We currently support the following platforms:
 
@@ -148,7 +148,7 @@ We currently support the following platforms:
 
 The bookmarklets are included in the `import/` folder in the repo.
 
-### Future 
+## Future 
 
 We would love to get some help doing new features. The core concept of this app is a way to consolidate stats for rewards from all platforms, making it easy to gather intel about how you perform. Both to challenge yourself and to learn of patterns around your bug hunting. If you have any ideas following this concept we would love to see some pull requests or feature requests. Remember, we are doing this project on our "free time". :)
 
