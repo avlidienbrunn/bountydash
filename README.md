@@ -2,7 +2,7 @@
 
 _This tool was created by [@fransrosen](https://twitter.com/fransrosen) and [@avlidienbrunn](https://twitter.com/avlidienbrunn) to create a better overview of your bug bounty rewards. By tagging all your reports in the tool you're also able to categorize all vulnerability types, plotting up a graph around your activity cross platforms and get forecasts around your future findings. Everything runs locally and there are import scripts you can run to fetch the data from each platform._
 
-<img src="assets/intro/intro10.png" width="500" />
+<img src="assets/intro/intro10.png" />
 
 ## Description
 
