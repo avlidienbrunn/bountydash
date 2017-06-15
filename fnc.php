@@ -127,9 +127,6 @@ function save_list($list) {
 	file_put_contents('db/db.txt', json_encode($new));
 }
 
-#import_source('hackerone', file_get_contents('h.txt'));
-#delete_source('hackerone');
-
 function get_list($json = false) {
 	$str = file_get_contents('db/db.txt');
 	return $json ? json_decode($str, true) : $str;

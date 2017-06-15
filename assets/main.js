@@ -169,7 +169,7 @@ function stats() {
 	}
 	months = month_new;
 
-	set_chart('js-time-chart', months, "month", 'Rewards / month')
+	set_chart('js-time-chart', months, "month", 'Amount / month')
 
 	years.reverse();
 
