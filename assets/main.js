@@ -42,8 +42,8 @@ function set_list() {
 		
 		row = $("<tr>").attr('data-id', key).attr('data-tags', tags)
 			.append($('<td>').text(val['id'].substr(0,10)))
-			.append($('<td>').text(1?val['title']:'#### ## ####'))
-			.append($('<td>').text(val['program']))
+			.append($('<td class="title">').text(1?val['title']:'#### ## ####'))
+			.append($('<td class="program">').text(val['program']))
 			.append($('<td class="text-right">').attr('val', val['amount']).text(val['amount'].replace(/\.0?0$/,'')+' '+val['currency']))
 			.append($('<td nowrap>').text(val['date'].split('T')[0]))
 			.append(
