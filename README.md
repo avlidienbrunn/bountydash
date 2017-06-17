@@ -153,6 +153,8 @@ We currently support the following platforms:
 * HackerOne (using CSV-export sent to you via e-mail)
 * Bugcrowd (using bookmarklet)
 * Synack (using bookmarklet)
+* Google VRP (using bookmarklet)
+* cobalt.io (using bookmarklet)
 * Detectify Crowdsource (through Bugcrowd payments)
 * Facebook (through Bugcrowd payments)
 
