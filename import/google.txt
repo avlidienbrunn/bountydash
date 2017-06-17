@@ -1,7 +1,7 @@
 //go to https://bughunter.withgoogle.com/dashboard and run in console:
 bounties = [];
 $$("tr", $("#report-table")).forEach(function(x,y){
-    bounty = {};
+	bounty = {};
 	if(!(title = x.querySelector('.report-details')) || !(amount = x.querySelector('.panel-amount'))) return;
 	title = title.innerText;
 	bounty.report_title = title.replace(/(Re: )?\[[0-9]+-[0-9]+\] ?/, '');
@@ -9,11 +9,19 @@ $$("tr", $("#report-table")).forEach(function(x,y){
 	if(id[1]) {
 		bounty.report_id = id[1];
 	}
-    s=bounty.report_title; s=escape(s); s=s.replace(/%25u/g,'\\u'); 
+	s=bounty.report_title; s=escape(s); s=s.replace(/%25u/g,'\\u'); 
 	bounty.report_title=unescape(JSON.parse('["' + s + '"]')[0]);
 
 	bounty.total_amount = amount.innerText;
-	bounty.awarded_at = new Date(parseInt(x.querySelector('.panel-paid').getAttribute('data-paid-date'),10)).toISOString();
+	if(x.querySelector('.panel-paid') == null){
+		if(parseFloat(bounty.total_amount) > 0){
+			bounty.awarded_at = new Date().toISOString();
+		}else{
+			return;
+		}
+	}else{
+		bounty.awarded_at = new Date(parseInt(x.querySelector('.panel-paid').getAttribute('data-paid-date'),10)).toISOString();
+	}
 	bounty.program_name = 'Google';
 	bounty.currency = "USD";
 	bounty.status = "sent";
@@ -23,4 +31,4 @@ csv_content = "report_id,report_title,program_name,total_amount,amount,bonus_amo
 for(bounty of bounties){
 	csv_content += bounty.report_id+","+bounty.report_title+","+bounty.program_name+","+bounty.total_amount+",0,0,"+bounty.currency+","+bounty.awarded_at+","+bounty.status+"\n";
 }
-location.href='data:text/plain;charset=utf-8,' + csv_content.replace(/\n/g, '%0a');
+window.open('data:text/plain;charset=utf-8,' + csv_content.replace(/\n/g, '%0a'));
