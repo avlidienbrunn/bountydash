@@ -14,13 +14,9 @@ $$("tr", $("#report-table")).forEach(function(x,y){
 
 	bounty.total_amount = amount.innerText;
 	if(x.querySelector('.panel-paid') == null){
-		if(parseFloat(bounty.total_amount) > 0){
-			bounty.awarded_at = new Date().toISOString();
-		}else{
 			return;
-		}
 	}else{
-		bounty.awarded_at = new Date(parseInt(x.querySelector('.panel-paid').getAttribute('data-paid-date'),10)).toISOString();
+		bounty.awarded_at = new Date(parseInt(x.querySelector('.panel-paid').getAttribute('data-paid-date'),10)).toISOString().replace("T"," ").replace(/\..*Z/," UTC");
 	}
 	bounty.program_name = 'Google';
 	bounty.currency = "USD";
