@@ -16,5 +16,5 @@ fetch('/api/transactions?per_page=10000&page=1', {
         obj_date = new Date(parseInt(obj['created_at']) * 1000).toISOString();
         str += "\n" + obj['id'] + ',"' + obj['title'].replace(/"/g, '') + '",' + (obj['title'] == 'Patch Verification' ? 'Patch Verification' : obj['reference_id'].split('-')[0]) + ',' + (parseFloat(obj['market_value_final']) ? obj['market_value_final'] : obj['amount']) + ',' + obj['amount'] + ',' + (parseFloat(obj['incentive_increase']) ? obj['incentive_increase'] : 0) + ',USD,' + obj_date + ',sent';
     }
-	location.href='data:text/plain;charset=utf-8,' + str.replace(/\n/g, '%0a');
+	window.open('data:text/plain;charset=utf-8,' + str.replace(/\n/g, '%0a'));
 });

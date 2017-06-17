@@ -11,5 +11,5 @@ fetch('https://api.cobalt.io/v1/payouts?page%5Bnumber%5D=1&page%5Bsize%5D=10000'
         obj_date = obj.attributes.clearable_at;
         str += "\n" + obj.attributes.resource.tag + ',"' + obj.attributes.resource.title.replace(/"/g, '') + '",' + obj.attributes.resource.path.split('/')[1] + ',' + (obj.attributes.total_amount/100) + ',0,0,USD,' + obj.attributes.clearable_at + ',sent';
     }
-	location.href='data:text/plain;charset=utf-8,' + str.replace(/\n/g, '%0a');
+	window.open('data:text/plain;charset=utf-8,' + str.replace(/\n/g, '%0a'));
 });
