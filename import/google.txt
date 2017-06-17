@@ -1,6 +1,6 @@
 //go to https://bughunter.withgoogle.com/dashboard and run in console:
 bounties = [];
-$$("tr", $("#report-table")).forEach(function(x,y){
+$$("#report-table tr").forEach(function(x,y){
 	bounty = {};
 	if(!(title = x.querySelector('.report-details')) || !(amount = x.querySelector('.panel-amount'))) return;
 	title = title.innerText;

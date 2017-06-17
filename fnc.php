@@ -110,10 +110,10 @@ function import_source($source, $csv) {
 }
 
 function save_list($list) {
-	usort($list, function ($item1, $item2) {
-	    if ($item1['date'] == $item2['date']) return 0;
-	    return $item2['date'] < $item1['date'] ? -1 : 1;
-	});
+	array_multisort(
+		array_column($list, 'date'),  SORT_DESC,
+		array_column($list, 'id'), SORT_ASC,
+		$list);
 	//key up
 	$new = [];
 	foreach($list as $line) {

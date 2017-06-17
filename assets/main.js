@@ -16,6 +16,7 @@ function set_list() {
 	check_date.setMonth(check_date.getMonth()-month_range)
 	for(key in list) {
 		val = list[key];
+		if(val['amount'] === null) continue;
 		tags = val['tags'].join(' ') + ' ';
 		val['tags'].forEach(
 			function(tag){ 
@@ -39,7 +40,6 @@ function set_list() {
 				outdated = true;
 			}
 		}
-		
 		row = $("<tr>").attr('data-id', key).attr('data-tags', tags)
 			.append($('<td>').text(val['id'].substr(0,10)))
 			.append($('<td class="title">').text(1?val['title']:'#### ## ####'))
@@ -150,7 +150,8 @@ function stats() {
 
 	// get real months for the range
 	range = month_range;
-	if(range == -1) range = months_ago(first_report) + 1;
+	if(range == -1 && first_report !== -1) range = months_ago(first_report) + 1;
+	if(isNaN(range)) range = 0;
 
 	var start_month = new Date();
 	start_month.setMonth(start_month.getMonth()-range)
@@ -168,8 +169,11 @@ function stats() {
 			month_new[month_new.length] = {month:month,reports:0,amount:0,currency:"USD"}
 	}
 	months = month_new;
-
-	set_chart('js-time-chart', months, "month", 'Amount / month')
+	if(months.length === 0 || months.length === 1 && months[0].reports == 0) {
+		//no chart.
+	} else {
+		set_chart('js-time-chart', months, "month", 'Amount / month')
+	}
 
 	years.reverse();
 
@@ -428,9 +432,12 @@ $('.js-month-selector').on('change', function() {
 
 $('.js-clear-source').on('click', function() {
 	source = prompt('insert source to delete', '');
-	$.post('load.php', {delete:1,source:source}, function(data) {
-		init();
-	});
+	if(source) {
+		if(source == selected_tag) selected_tag = false;
+		$.post('load.php', {delete:1,source:source}, function(data) {
+			init();
+		});
+	}
 });
 
 $('.js-export').on('click', function(e) {
