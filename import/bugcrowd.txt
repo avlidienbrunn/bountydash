@@ -9,10 +9,10 @@ $(".payment-list").find("li").each(function(x,y){
 		bounty.report_id = link.href.split("/")[4];
 	}
 	bounty.amount = $(y).find(".reward-highlight")[0].innerText.slice(1).replace(',', '');
-	bounty.awarded_at = $(y).find(".timeago").attr("datetime");
+	bounty.awarded_at = $(y).find(".payment-date time").attr("datetime");
 	bounty.report_title = y.innerText.split("$")[0];
     s=bounty.report_title; s=escape(s); console.log(s); s=s.replace(/%25u/g,'\\u'); bounty.report_title=unescape(JSON.parse('["' + s + '"]')[0])
-	bounty.program_name = $(y).find('.bounty').text().replace('from', '').replace(' (Closed)', '').replace(/,/g, ' ').trim();
+	bounty.program_name = $(y).find('.bounty').text().replace('from', '').trim().replace(/ \(.*\)$/, '').replace(/,/g, ' ').trim();
 	bounty.total_amount = bounty.bonus_amount = bounty.amount;
 	bounty.currency = "USD";
 	bounty.status = "sent";
