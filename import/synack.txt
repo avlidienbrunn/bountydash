@@ -1,7 +1,6 @@
 // go to https://platform.synack.com/transactions and run this in the console
 str = "report_id,report_title,program_name,total_amount,amount,bonus_amount,currency,awarded_at,status";
-token=$('a[href*="authorization_token"]').href.split('?')[1].split('&').find(function(e){return e.indexOf('authorization_token')!=-1}).split('=');
-token.shift();
+token=sessionStorage.getItem('access_token');
 fetch('/api/transactions?per_page=10000&page=1', {
     credentials: 'same-origin',
 	headers: {
