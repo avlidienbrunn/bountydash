@@ -69,11 +69,27 @@ function import_source($source, $csv) {
 	$json = [];
 	$data = explode("\n", $data);
 	
-	array_shift($data);
+	$headers = explode(',', trim(array_shift($data)));
+	//status should be the last one to align properly
+	$ignore_end = 0;
+	foreach($headers as $header_key => $header) {
+		if($header == 'status') {
+			break;
+		}
+	}
+	$ignore_end = $header_key + 1;
 	foreach($data as $line) {
 		$line = trim($line);
 		if(!$line) continue;
 		$line = explode(',', $line);
+		if($ignore_end) {
+			//we don't parse the real csv, check if line-count is larger than header count and align
+			$column_diff = 0;
+			if(count($line) > count($headers)) {
+				$column_diff = count($line) - count($headers);
+			}
+			array_splice($line, $ignore_end + $column_diff);
+		}
 		$id = array_shift($line);
 		$status = 'sent';array_pop($line); //since status changes during different imports, always keep as sent
 		$date = array_pop($line);
