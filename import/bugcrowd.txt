@@ -10,7 +10,7 @@ $('tbody', $('time').closest('table')).find('tr').each(function (x,y) {
 		bounty.report_id = link.href.split("/")[4];
 	}
 	s=bounty.report_title; s=escape(s); s=s.replace(/%25u/g,'\\u'); 
-	bounty.report_title=unescape(JSON.parse('["' + s + '"]')[0])
+	bounty.report_title=unescape(JSON.parse('["' + s + '"]')[0]).trim();
 	bounty.amount = $(y).find(".bc-reward")[0].innerText.slice(1).replace(',', '');
 	bounty.awarded_at = $(y).find("time").attr("datetime");
 	bounty.program_name = $(y).find('[data-label=program]').text().replace('from', '').trim().replace(/ \(.*\)$/, '').replace(/,/g, ' ').trim();
