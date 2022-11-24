@@ -265,7 +265,7 @@ function stats() {
 	    return b.amount - a.amount;
 	})
 
-	programs = programs.splice(0, 5);
+	programs = programs.splice(0, 10);
 
 	for(program in programs) {
 		val = programs[program]

@@ -90,8 +90,9 @@ function import_source($source, $csv) {
 			}
 			array_splice($line, $ignore_end + $column_diff);
 		}
+
 		$id = array_shift($line);
-		$status = 'sent';array_pop($line); //since status changes during different imports, always keep as sent
+		$status = 'sent';
 		$date = array_pop($line);
 		$currency = array_pop($line);
 		array_pop($line);
