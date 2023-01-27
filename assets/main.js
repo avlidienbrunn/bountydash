@@ -234,7 +234,7 @@ function stats() {
 		$('#stats-forecast').html("");
 		row = $("<tr>")
 			.append($('<td>').text(years[current_year].year))
-			.append($('<td>').text(forecast_rewarded + ' (' + left_rewarded + ' left)'))
+			.append($('<td>').text(forecast_rewarded.toFixed(2) + ' (' + left_rewarded.toFixed(2) + ' left)'))
 			.append($('<td title="'+left_amount+' left">').text(forecast_amount+" "+years[current_year]['currency'] + ' (' + left_amount + ' left)'))
 		$('#stats-forecast').append(row);
 	} else {
