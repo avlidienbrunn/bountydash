@@ -1,0 +1,1 @@
+curl https://app.intigriti.com/api/core/researcher/payout -H 'Cookie: <your-cookie>' | jq -r '["report_id", "report_title", "program_name", "total_amount","amount","bonus_amount","currency","awarded_at"], (.[] | [.submissionCode, .submissionTitle, .programName, .amount.value, .amount.value, 0, .amount.currency, (.createdAt | todateiso8601) ]) | @csv | sub("\"";"";"g")'
