@@ -1,0 +1,41 @@
+// Go to https://yeswehack.com/user/wallet/transactions and run this in the console
+// as far as I could tell, there's no way to link payouts to submission title or programs
+var str = "report_id,report_title,program_name,total_amount,amount,bonus_amount,currency,awarded_at,status";
+fetch('https://api.yeswehack.com/user/wallet/transactions', {
+    mode: "cors",
+    headers: {
+        "Authorization":"Bearer "+localStorage.getItem("access_token")
+    }
+}).then(function(response) {
+    return response.json();
+}).then(function(data) {
+    console.log(data);
+    console.log(data['items']);
+    if(Array.isArray(data['items'])) {
+        for(var i = 0; i < data['items'].length; i++) {
+            var obj = data['items'][i];
+            if(obj.transaction_type  != 'REWARD') continue;
+            var report_id = obj.mango_id || '';
+            var report_title = 'N/A';
+            var program_name = 'N/A';
+            var total_amount = (obj.credited_funds / 100);
+            var amount = total_amount;
+            var bonus_amount = 0;
+            var currency = obj.currency || '';
+            var awarded_at = obj.creation_date;
+
+            str += '\n' + report_id + ',' + report_title + ',' + program_name + ',' + total_amount + ',' + amount + ',' + bonus_amount + ',' + currency + ',' + awarded_at;
+        }
+    }
+    var blob = new Blob([str], {type: 'text/csv;charset=utf-8;'});
+    var link = document.createElement('a');
+    if (link.download !== undefined) { // Feature detection
+        var url = URL.createObjectURL(blob);
+        link.setAttribute('href', url);
+        link.setAttribute('download', 'payouts.csv');
+        link.style.visibility = 'hidden';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
+});
