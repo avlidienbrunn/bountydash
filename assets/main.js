@@ -481,7 +481,7 @@ $('.js-import-csv-cancel').on('click', function() {
 
 $('#import-csv-form').on('submit', function(e) {
 	e.preventDefault();
-	$.post('load.php', {csv:$('#inputCSV').val(),source:$('#inputSource').val()}, function(data) {
+	$.post('load.php', {csv:$('#inputCSV').val(),source:$('#inputSource').val(),cutoff:$('#inputCutoff').val()}, function(data) {
 		$('#import-csv-form').addClass('hidden')[0].reset();
 		parse_list(data);
 	});

@@ -1,7 +1,7 @@
 <?php
 require('fnc.php');
 if(!empty($_POST['source']) && !empty($_POST['csv'])) {
-	import_source($_POST['source'], $_POST['csv']);
+	import_source($_POST['source'], $_POST['csv'], !empty($_POST['cutoff']) ? $_POST['cutoff'] : null);
 } else if(!empty($_POST['delete']) && !empty($_POST['source'])) {
 	delete_source($_POST['source']);
 } else if(!empty($_POST['delete']) && isset($_POST['id']) && !empty($_POST['tag'])) {

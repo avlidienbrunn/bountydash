@@ -34,7 +34,7 @@ function add_tags_from_filter($filter, $tags) {
     $list = array_values($list);
     save_list($list);
 }
-function delete_tag($id = false, $tag) {
+function delete_tag($id = false, $tag = '') {
     $list = get_list(true);
     if($id) {
         if(isset($list[$id])) {
@@ -60,7 +60,7 @@ function delete_tag($id = false, $tag) {
     $list = array_values($list);
     save_list($list);
 }
-function import_source($source, $csv) {
+function import_source($source, $csv, $cutoff = null) {
     backup_list();
     $source = strtolower(trim($source));
     $list = get_list(true);
@@ -83,15 +83,15 @@ function import_source($source, $csv) {
     foreach($data as $line) {
         $line = trim($line);
         if(!$line) continue;
-        $line = explode(',', $line);
-        if($ignore_end) {
+        $line = str_getcsv($line);
+        /*if($ignore_end) {
             //we don't parse the real csv, check if line-count is larger than header count and align
             $column_diff = 0;
             if(count($line) > count($headers)) {
                 $column_diff = count($line) - count($headers);
             }
             array_splice($line, $ignore_end + $column_diff);
-        }
+        }*/
 
         switch ($csv_type) {
             case 'bugcrowd':
@@ -117,20 +117,20 @@ function import_source($source, $csv) {
                 $title = str_replace(array('""'), array('"'), $title);
                 break;
             case 'hackerone':
-                $id = array_shift($line);
+                $lineData = array_combine($headers, $line);
+                $id = $lineData['report_id'];
                 $status = 'sent';
-                $date = array_pop($line);
-                $currency = array_pop($line);
-                array_pop($line);
-                array_pop($line);
-                $total = array_pop($line);
-                $program = trim(array_pop($line));
-                $title = preg_replace(array('/^"/', '/"$/'), '', implode(',',$line));
-                $title = str_replace(array('""'), array('"'), $title);
+                $date = $lineData['awarded_at'];
+                $currency = $lineData['currency'];
+                $total = $lineData['total_amount'];
+                $program = trim($lineData['program_name']);
+                $title = $lineData['report_title'];
+                // ignore if no id was found
+                if (!$id) { continue 2; }
                 break;
         }
         
-
+        if ($cutoff && $cutoff > $date) { continue; }
         $arr = [
             'id' => $id,
             'status' => $status,
