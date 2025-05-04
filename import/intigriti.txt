@@ -1,0 +1,35 @@
+// Go to https://app.intigriti.com/researcher/payouts and run this in the console
+var str = "report_id,report_title,program_name,total_amount,amount,bonus_amount,currency,awarded_at,status";
+fetch('https://app.intigriti.com/api/core/researcher/payout', {
+    mode: "cors",
+    credentials: "include"
+}).then(function(response) {
+    return response.json();
+}).then(function(data) {
+    if(Array.isArray(data)) {
+        for(var i = 0; i < data.length; i++) {
+            var obj = data[i];
+            var report_id = obj.submissionCode || '';
+            var report_title = obj.submissionTitle ? obj.submissionTitle.replace(/,/g, '') : '';
+            var program_name = obj.programName ? obj.programName.replace(/,/g, '') : '';
+            var total_amount = obj.amount && obj.amount.value ? obj.amount.value : 0;
+            var amount = total_amount;
+            var bonus_amount = 0;
+            var currency = obj.amount && obj.amount.currency ? obj.amount.currency : '';
+            var awarded_at = obj.paidAt ? new Date(obj.paidAt * 1000).toISOString() : '';
+
+            str += '\n' + report_id + ',' + report_title + ',' + program_name + ',' + total_amount + ',' + amount + ',' + bonus_amount + ',' + currency + ',' + awarded_at;
+        }
+    }
+    var blob = new Blob([str], {type: 'text/csv;charset=utf-8;'});
+    var link = document.createElement('a');
+    if (link.download !== undefined) { // Feature detection
+        var url = URL.createObjectURL(blob);
+        link.setAttribute('href', url);
+        link.setAttribute('download', 'payouts.csv');
+        link.style.visibility = 'hidden';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
+});
